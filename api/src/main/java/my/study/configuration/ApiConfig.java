@@ -15,6 +15,7 @@ public class ApiConfig {
 
     private static final String[] AUTH_WHITELIST = {
             // swagger ui
+            "/",
             "/swagger-resources/**",
             "/swagger-ui.html",
             "/v2/api-docs",
@@ -26,7 +27,6 @@ public class ApiConfig {
         return new ResourceServerConfigurerAdapter() {
             @Override
             public void configure(HttpSecurity http) throws Exception {
-                http.headers().frameOptions().disable();
                 http.authorizeRequests()
                         .antMatchers(AUTH_WHITELIST).permitAll()
                         .antMatchers("/members", "/members/**").access("#oauth2.hasScope('read')")
