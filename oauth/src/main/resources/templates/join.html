@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.typeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Join</title>
+</head>
+<body>
+    <form th:action="@{/join}" method="post">
+        <h2> 회원가입 </h2>
+
+        <input type="text" name="username" placeholder="계정" required="required"/>
+        <input type="password" name="password" placeholder="암호" required="required"/>
+        <input type="submit" value="회원가입"/>
+    </form>
+</body>
+</html>

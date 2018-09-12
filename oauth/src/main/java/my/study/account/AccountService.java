@@ -1,6 +1,7 @@
 package my.study.account;
 
 import lombok.RequiredArgsConstructor;
+import my.study.account.enums.RoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -22,14 +23,21 @@ import java.util.Optional;
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
+    private final AccountRoleRepository accountRoleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Account createAccount(String username, String password) {
+    public Account createAccount(String username, String password) throws RuntimeException{
         Account account = new Account();
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
+        accountRepository.save(account);
 
-        return accountRepository.save(account);
+        AccountRole accountRole = new AccountRole();
+        accountRole.setUsername(username);
+        accountRole.setRoleEnum(RoleEnum.USER);
+        accountRoleRepository.save(accountRole);
+
+        return accountRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("createAccount Error!!!!"));
     }
 
     @Override
@@ -37,7 +45,7 @@ public class AccountService implements UserDetailsService {
         Optional<Account> byUsername = accountRepository.findByUsername(username);
         Account account = byUsername.orElseThrow(() -> new UsernameNotFoundException(username));
 
-        return new User(account.getUsername(), account.getPassword(), authorities());
+        return new User(account.getUsername(), account.getPassword(), account.getRoles());
     }
 
     private Collection<? extends GrantedAuthority> authorities() {
