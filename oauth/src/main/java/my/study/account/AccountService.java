@@ -26,7 +26,7 @@ public class AccountService implements UserDetailsService {
     private final AccountRoleRepository accountRoleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Account createAccount(String username, String password) throws RuntimeException{
+    public Account createAccount(String username, String password, RoleEnum roleEnum) throws RuntimeException{
         Account account = new Account();
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
@@ -34,7 +34,7 @@ public class AccountService implements UserDetailsService {
 
         AccountRole accountRole = new AccountRole();
         accountRole.setUsername(username);
-        accountRole.setRoleEnum(RoleEnum.USER);
+        accountRole.setRoleEnum(roleEnum);
         accountRoleRepository.save(accountRole);
 
         return accountRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("createAccount Error!!!!"));
@@ -46,9 +46,5 @@ public class AccountService implements UserDetailsService {
         Account account = byUsername.orElseThrow(() -> new UsernameNotFoundException(username));
 
         return new User(account.getUsername(), account.getPassword(), account.getRoles());
-    }
-
-    private Collection<? extends GrantedAuthority> authorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 }
