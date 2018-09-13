@@ -18,7 +18,7 @@ public class JoinController {
 
     @PostMapping("/join")
     public String join(@Valid @RequestBody AccountDTO accountDTO){
-        accountService.createAccount(accountDTO.getUsername(), accountDTO.getUsername(), RoleEnum.USER);
+        accountService.createAccount(accountDTO.getUsername(), accountDTO.getPassword(), RoleEnum.USER);
         return "index";
     }
 
