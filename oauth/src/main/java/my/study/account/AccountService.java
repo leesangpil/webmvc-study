@@ -2,8 +2,6 @@ package my.study.account;
 
 import lombok.RequiredArgsConstructor;
 import my.study.account.enums.RoleEnum;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,8 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collection;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -26,6 +23,7 @@ public class AccountService implements UserDetailsService {
     private final AccountRoleRepository accountRoleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public Account createAccount(String username, String password, RoleEnum roleEnum) throws RuntimeException{
         Account account = new Account();
         account.setUsername(username);

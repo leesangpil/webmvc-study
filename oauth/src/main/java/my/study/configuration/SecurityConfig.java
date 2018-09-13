@@ -17,9 +17,7 @@ import javax.sql.DataSource;
  * Created by leesangpil on 2018. 9. 12..
  */
 @Configuration
-@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final DataSource dataSource;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
