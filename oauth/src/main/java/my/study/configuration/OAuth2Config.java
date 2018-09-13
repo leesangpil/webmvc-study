@@ -19,5 +19,4 @@ public class OAuth2Config {
     public TokenStore jdbcTokenStore(DataSource dataSource) {
         return new JdbcTokenStore(dataSource);
     }
-
 }

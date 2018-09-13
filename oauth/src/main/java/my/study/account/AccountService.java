@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -20,7 +21,6 @@ import java.util.Optional;
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
-    private final AccountRoleRepository accountRoleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -28,14 +28,8 @@ public class AccountService implements UserDetailsService {
         Account account = new Account();
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
-        accountRepository.save(account);
-
-        AccountRole accountRole = new AccountRole();
-        accountRole.setUsername(username);
-        accountRole.setRoleEnum(roleEnum);
-        accountRoleRepository.save(accountRole);
-
-        return accountRepository.findByUsername(username).orElseThrow(()-> new RuntimeException("createAccount Error!!!!"));
+        account.setRoles(Arrays.asList(roleEnum));
+        return accountRepository.save(account);
     }
 
     @Override
