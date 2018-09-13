@@ -1,6 +1,6 @@
 package my.study.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import my.study.account.AccountService;
 import my.study.account.enums.RoleEnum;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JoinController {
     private final AccountService accountService;
 

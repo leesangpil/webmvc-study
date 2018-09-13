@@ -1,11 +1,10 @@
 package my.study.runner;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.study.account.Account;
 import my.study.account.AccountService;
 import my.study.account.enums.RoleEnum;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccountRunner implements ApplicationRunner {
 
     private final AccountService accountService;
