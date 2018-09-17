@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import my.study.account.enums.RoleEnum;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,8 +17,10 @@ import java.util.List;
 @Setter
 @ToString
 public class Account {
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
-    @Id
+    @Column(unique = true)
     private String username;
     private String password;
     private Integer age;
