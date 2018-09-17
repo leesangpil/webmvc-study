@@ -5,6 +5,8 @@ spring.h2.console:
   enabled: true
   path: /h2-console
 
+spring.jpa.show-sql: true
+
 security:
   oauth2:
     client:
@@ -13,8 +15,3 @@ security:
     authorization:
       check-token-access: isAuthenticated()
 #      token-key-access: isAuthenticated()
-
-#logging.level:
-#  org.springframework:
-#    security: debug
-#    boot: debug
