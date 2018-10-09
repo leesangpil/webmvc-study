@@ -12,6 +12,7 @@ security:
     client:
       client-id: foo
       client-secret: bar
+      authorized-grant-types: password
     authorization:
       check-token-access: isAuthenticated()
 #      token-key-access: isAuthenticated()
