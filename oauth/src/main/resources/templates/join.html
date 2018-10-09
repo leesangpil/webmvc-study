@@ -9,6 +9,13 @@
 <form id="joinform">
     <p>username : <input type="text" id="username"/></p>
     <p>password : <input type="password" id="password"/></p>
+    <p>age : <input type="text" id="age"/></p>
+    <p>email : <input type="text" id="email"/></p>
+    <p>homePhoneNumber : <input type="text" id="homePhoneNumber"/></p>
+    <p>cellPhoneNumber : <input type="text" id="cellPhoneNumber"/></p>
+    <p>emergencyNumber : <input type="text" id="emergencyNumber"/></p>
+    <p>homeAddress : <input type="text" id="homeAddress"/></p>
+    <p>companyAddress : <input type="text" id="companyAddress"/></p>
     <input type="submit" id="submit" value="회원가입"/>
 </form>
 
@@ -18,6 +25,9 @@
         var data = new Object();
         data.username = $('#username').val() || null;
         data.password = $('#password').val() || null;
+        data.age = 2;
+        data.email = 'stonegyu@gmail.com';
+        data.gender = 0;
         $.ajax({
             url : '/join',
             method : 'POST',
