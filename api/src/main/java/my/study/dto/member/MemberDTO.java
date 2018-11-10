@@ -1,4 +1,4 @@
-package my.study.dto;
+package my.study.dto.member;
 
 import lombok.Data;
 import my.study.entity.Member;

@@ -17,17 +17,17 @@ import java.util.List;
 /**
  * Created by leesangpil on 2018. 9. 12..
  */
-@Order(1)
+@Order(2)
 @Component
 @RequiredArgsConstructor
-public class DocumentInsertRunner implements ApplicationRunner {
+public class DocumentInsertRunner2 implements ApplicationRunner {
     private final DocumentService documentService;
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        System.out.println("1. create document");
+        System.out.println("2. create document2");
 
-        DocumentDTO dto = documentService.write(makeMemberDTO());
+        DocumentDTO dto = documentService.write(makeDocumentDTO());
 
         System.out.println("document create complete!!");
         System.out.println("id : " + dto.getId());
@@ -35,9 +35,10 @@ public class DocumentInsertRunner implements ApplicationRunner {
         System.out.println("body : " + dto.getBody());
     }
 
-    private DocumentDTO makeMemberDTO() {
+    private DocumentDTO makeDocumentDTO() {
+        Long documentId = null;
         Long authorId = 1l;
-        String body = "document body";
+        String body = "document body2";
 
         List<HashTagDTO> hashTagDTOS = new ArrayList<>();
         hashTagDTOS.add(new HashTagDTO("tag1"));
@@ -55,6 +56,6 @@ public class DocumentInsertRunner implements ApplicationRunner {
         attachmentDTOS.add(new AttachmentDTO("image1", shoppingTagDTOS1));
         attachmentDTOS.add(new AttachmentDTO("video1", shoppingTagDTOS2));
 
-        return new DocumentDTO(authorId, body, hashTagDTOS, attachmentDTOS);
+        return new DocumentDTO(documentId, authorId, body, hashTagDTOS, attachmentDTOS);
     }
 }
