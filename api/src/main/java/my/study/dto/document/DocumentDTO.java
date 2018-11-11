@@ -28,7 +28,7 @@ public class DocumentDTO {
         this.authorId = document.getAuthor().getId();
         this.body = document.getBody();
         this.hashTagDTOS = document.getDocumentHashTagMappings().stream().map(DocumentHashTagMapping::getHashTag).map(HashTagDTO::new).collect(toList());
-        this.attachmentDTOS = document.getAttachments().stream().map(attachment -> new AttachmentDTO(attachment)).collect(toList());
+        this.attachmentDTOS = document.getAttachments().stream().map(AttachmentDTO::new).collect(toList());
     }
 
     public DocumentDTO(Long id, Long authorId, String body, List<HashTagDTO> hashTagDTOS, List<AttachmentDTO> attachmentDTOS) {

@@ -6,6 +6,7 @@ import lombok.Setter;
 import my.study.dto.document.ShoppingTagDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class ShoppingTag {
     private String uniqueId;
 
     @OneToMany(mappedBy = "shoppingTag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<AttachmentShoppingTagMapping> attachmentShoppingTagMappings;
+    private List<AttachmentShoppingTagMapping> attachmentShoppingTagMappings = new ArrayList<>();
 
     public ShoppingTag(ShoppingTagDTO shoppingTagDTO) {
         this.type = shoppingTagDTO.getType();

@@ -8,6 +8,7 @@ import my.study.dto.document.ShoppingTagDTO;
 import my.study.entity.service.DocumentService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +19,7 @@ import java.util.List;
  * Created by leesangpil on 2018. 9. 12..
  */
 @Order(2)
+@Profile("xxx")
 @Component
 @RequiredArgsConstructor
 public class DocumentInsertRunner2 implements ApplicationRunner {

@@ -31,7 +31,7 @@ public class DocumentUpdateRunner implements ApplicationRunner {
 
         DocumentDTO dto = documentService.update(makeMemberDTO());
 
-        System.out.println("document create complete!!");
+        System.out.println("document update complete!!");
         System.out.println("id : " + dto.getId());
         System.out.println("authorId : " + dto.getAuthorId());
         System.out.println("body : " + dto.getBody());
@@ -42,6 +42,7 @@ public class DocumentUpdateRunner implements ApplicationRunner {
         // 1번 문서
         // Document의 본문을 수정하고
         // 사진을 하나 추가하고
+        // 기존 사진을 하나 삭제하고 TODO
         // 첫번째 사진의 쇼핑태그를 하나 더 추가한다.
         // 두번째 비디오에 있던 쇼핑태그는 제거.
         // 태그도 하나 걍 지움
@@ -52,6 +53,7 @@ public class DocumentUpdateRunner implements ApplicationRunner {
 
         List<HashTagDTO> hashTagDTOS = new ArrayList<>();
         hashTagDTOS.add(new HashTagDTO(1l, "tag1"));
+        hashTagDTOS.add(new HashTagDTO("tag3"));
         //hashTagDTOS.add(new HashTagDTO("tag2"));
 
         List<AttachmentDTO> attachmentDTOS = new ArrayList<>();
@@ -61,11 +63,11 @@ public class DocumentUpdateRunner implements ApplicationRunner {
         shoppingTagDTOS1.add(new ShoppingTagDTO(2l, "item", "item001"));
         shoppingTagDTOS1.add(new ShoppingTagDTO("custem", "custom001"));
 
-        List<ShoppingTagDTO> shoppingTagDTOS2 = new ArrayList<>();
+        //List<ShoppingTagDTO> shoppingTagDTOS2 = new ArrayList<>();
         //shoppingTagDTOS2.add(new ShoppingTagDTO("brand", "brand001"));
 
         attachmentDTOS.add(new AttachmentDTO(1l, "image1", shoppingTagDTOS1));
-        attachmentDTOS.add(new AttachmentDTO(2l, "video1", shoppingTagDTOS2));
+        //attachmentDTOS.add(new AttachmentDTO(2l, "video1", Collections.emptyList()));
         attachmentDTOS.add(new AttachmentDTO("image2", Collections.emptyList()));
 
         return new DocumentDTO(documentId, authorId, body, hashTagDTOS, attachmentDTOS);

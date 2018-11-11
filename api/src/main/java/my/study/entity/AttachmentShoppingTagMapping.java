@@ -27,5 +27,10 @@ public class AttachmentShoppingTagMapping {
     public AttachmentShoppingTagMapping(Attachment attachment, ShoppingTag shoppingTag) {
         this.attachment = attachment;
         this.shoppingTag = shoppingTag;
+        add();
+    }
+
+    public void add() {
+        this.attachment.getAttachmentShoppingTagMappings().add(this);
     }
 }

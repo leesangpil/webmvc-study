@@ -6,6 +6,7 @@ import lombok.Setter;
 import my.study.dto.document.HashTagDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class HashTag {
     private String name;
 
     @OneToMany(mappedBy = "hashTag", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<DocumentHashTagMapping> documentHashTagMappings;
+    private List<DocumentHashTagMapping> documentHashTagMappings = new ArrayList<>();
 
     public HashTag(HashTagDTO hashTagDTO) {
         this.name = hashTagDTO.getName();

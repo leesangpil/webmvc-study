@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class DocumentHashTagMapping {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +26,14 @@ public class DocumentHashTagMapping {
     @JoinColumn(name = "hashTag_id")
     private HashTag hashTag;
 
+    // Document <--> HashTag 사이의 관계를 추가한다
     public DocumentHashTagMapping(Document document, HashTag hashTag) {
         this.document = document;
         this.hashTag = hashTag;
+        add();
+    }
+
+    public void add() {
+        this.document.getDocumentHashTagMappings().add(this);
     }
 }

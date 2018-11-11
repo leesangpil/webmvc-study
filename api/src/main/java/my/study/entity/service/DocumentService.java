@@ -5,10 +5,7 @@ import my.study.dto.document.AttachmentDTO;
 import my.study.dto.document.DocumentDTO;
 import my.study.dto.document.HashTagDTO;
 import my.study.dto.document.ShoppingTagDTO;
-import my.study.entity.Document;
-import my.study.entity.HashTag;
-import my.study.entity.Member;
-import my.study.entity.ShoppingTag;
+import my.study.entity.*;
 import my.study.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by leesangpil on 2018. 11. 8..
@@ -32,7 +31,7 @@ public class DocumentService {
     private final HashTagRepository hashTagRepository;
     private final ShoppingTagRepository shoppingTagRepository;
 
-    private final DocumentHashTagMappingRepository documentHashTagMappingRepository;
+    private final AttachmentRepository attachmentRepository;
 
     // write document
     @Transactional(readOnly = false)
@@ -46,13 +45,16 @@ public class DocumentService {
         // 2. save shopping-tag
         Map<Integer, List<ShoppingTag>> shoppingTagMap = saveShoppingTagMap(documentDTO.getAttachmentDTOS());
 
-        // 2. save document & attachment
-        Document document = documentRepository.save(new Document(author, documentDTO, hashTags, shoppingTagMap));
+        // 4. save attachment
+        List<Attachment> attachments = saveAttachment(documentDTO.getAttachmentDTOS(), shoppingTagMap);
+
+        // 3. save document
+        Document document = documentRepository.save(new Document(author, documentDTO, hashTags, attachments));
 
         return new DocumentDTO(document);
     }
 
-    // Document에 속한 HashTag를 중복 체크 한 후, 저장한다
+    // HashTag를 중복 체크 한 후, 저장한다
     private List<HashTag> saveHashTag(List<HashTagDTO> hashTagDTOS) {
         List<HashTag> hashTags = new ArrayList<>();
         hashTagDTOS.forEach(hashTagDTO -> {
@@ -67,6 +69,7 @@ public class DocumentService {
         Map<Integer, List<ShoppingTag>> listMap = new HashMap<>();
         AtomicInteger atomicInteger = new AtomicInteger(0);
         attachmentDTOS.stream().forEach(attachmentDTO -> {
+            // 여기서 Attachment 순서 지정
             attachmentDTO.setSeq(atomicInteger.getAndIncrement());
             listMap.put(attachmentDTO.getSeq(), saveShoppingTag(attachmentDTO.getShoppingTagDTOS()));
         });
@@ -84,6 +87,17 @@ public class DocumentService {
         return shoppingTags;
     }
 
+    // Attachment를 저장한다
+    private List<Attachment> saveAttachment(List<AttachmentDTO> attachmentDTOS, Map<Integer, List<ShoppingTag>> shoppingTagMap) {
+        return attachmentDTOS.stream().map(attachmentDTO -> {
+            if (attachmentDTO.getId() == null) {
+                return attachmentRepository.save(new Attachment(attachmentDTO, shoppingTagMap.get(attachmentDTO.getSeq())));
+            } else {
+                return attachmentRepository.findById(attachmentDTO.getId()).orElseGet(() -> attachmentRepository.save(new Attachment(attachmentDTO, shoppingTagMap.get(attachmentDTO.getSeq()))));
+            }
+        }).collect(toList());
+    }
+
     // read document
     @Transactional(readOnly = true)
     public DocumentDTO read(Long documentId) {
@@ -99,13 +113,16 @@ public class DocumentService {
         Document document = documentRepository.findById(documentDTO.getId()).orElseThrow(() -> new EntityNotFoundException());
 
         // 2. save hash-tag
-        List<HashTag> hashTags = saveHashTag(documentDTO.getHashTagDTOS());
+        List<HashTag> newHashTags = saveHashTag(documentDTO.getHashTagDTOS());
 
         // 3. save shopping-tag
         Map<Integer, List<ShoppingTag>> shoppingTagMap = saveShoppingTagMap(documentDTO.getAttachmentDTOS());
 
-        // 4. update document
-        document.update(documentDTO, hashTags, shoppingTagMap);
+        // 4. save attachment
+        List<Attachment> attachments = saveAttachment(documentDTO.getAttachmentDTOS(), shoppingTagMap);
+
+        // 5. update document
+        document.update(documentDTO, newHashTags, attachments);
 
         return new DocumentDTO(document);
     }
