@@ -49,7 +49,7 @@ public class DocumentService {
         List<Attachment> attachments = saveAttachment(documentDTO.getAttachmentDTOS(), shoppingTagMap);
 
         // 3. save document
-        Document document = documentRepository.save(new Document(author, documentDTO, hashTags, attachments));
+        Document document = documentRepository.save(new Document(author, documentDTO, hashTags, attachments, shoppingTagMap));
 
         return new DocumentDTO(document);
     }
@@ -108,21 +108,31 @@ public class DocumentService {
     @Transactional(readOnly = false)
     public DocumentDTO update(DocumentDTO documentDTO) {
         // TODO : validate author
-
+        System.out.println("================");
+        System.out.println("1. read document");
         // 1. read document
         Document document = documentRepository.findById(documentDTO.getId()).orElseThrow(() -> new EntityNotFoundException());
+        document.getAttachments();
 
+        System.out.println("================");
+        System.out.println("2. save hash-tag");
         // 2. save hash-tag
         List<HashTag> newHashTags = saveHashTag(documentDTO.getHashTagDTOS());
 
+        System.out.println("================");
+        System.out.println("3. save shopping-tag");
         // 3. save shopping-tag
         Map<Integer, List<ShoppingTag>> shoppingTagMap = saveShoppingTagMap(documentDTO.getAttachmentDTOS());
 
+        System.out.println("================");
+        System.out.println("4. save attachment");
         // 4. save attachment
         List<Attachment> attachments = saveAttachment(documentDTO.getAttachmentDTOS(), shoppingTagMap);
 
+        System.out.println("================");
+        System.out.println("5. update document");
         // 5. update document
-        document.update(documentDTO, newHashTags, attachments);
+        document.update(documentDTO, newHashTags, attachments, shoppingTagMap);
 
         return new DocumentDTO(document);
     }

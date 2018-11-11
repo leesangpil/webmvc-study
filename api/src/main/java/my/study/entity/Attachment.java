@@ -40,6 +40,11 @@ public class Attachment {
         addShoppingTags(shoppingTags);
     }
 
+    public void update(List<ShoppingTag> shoppingTags) {
+        // attachment <-> shopping-tag 관계 생성
+        addShoppingTags(shoppingTags);
+    }
+
     // attachment <-> shopping-tag 의 관계를 새로 형성한다
     private void addShoppingTags(List<ShoppingTag> shoppingTags) {
         // 기존 관계 제거 (전체 관계 제거)
