@@ -76,7 +76,7 @@ public class Document {
         hashTags.forEach(hashTag -> new DocumentHashTagMapping(this, hashTag));
     }
 
-    @PrePersist
+    @PostPersist
     private void addShoppingTagExtraIds() {
         this.getAttachments().forEach(attachment -> attachment.getAttachmentShoppingTagMappings().forEach(attachmentShoppingTagMapping -> {
             // ExtraIds
