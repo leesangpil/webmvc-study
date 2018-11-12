@@ -75,4 +75,22 @@ public class Document {
         // 새 태그와 기존 문서 관계 형성
         hashTags.forEach(hashTag -> new DocumentHashTagMapping(this, hashTag));
     }
+
+    @PrePersist
+    private void addShoppingTagExtraIds() {
+        this.getAttachments().forEach(attachment -> attachment.getAttachmentShoppingTagMappings().forEach(attachmentShoppingTagMapping -> {
+            // ExtraIds
+            attachmentShoppingTagMapping.setDocumentId(this.id);
+            attachmentShoppingTagMapping.setAuthorId(this.getAuthor().getId());
+        }));
+    }
+
+    @PreUpdate
+    private void updateShoppingTagExtraIds() {
+        this.getAttachments().forEach(attachment -> attachment.getAttachmentShoppingTagMappings().forEach(attachmentShoppingTagMapping -> {
+            // ExtraIds
+            attachmentShoppingTagMapping.setDocumentId(this.id);
+            attachmentShoppingTagMapping.setAuthorId(this.getAuthor().getId());
+        }));
+    }
 }

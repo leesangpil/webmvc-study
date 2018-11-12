@@ -2,6 +2,7 @@ package my.study.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 public class AttachmentShoppingTagMapping {
     @Id
@@ -23,6 +25,10 @@ public class AttachmentShoppingTagMapping {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "shoppingTag_id")
     private ShoppingTag shoppingTag;
+
+    private Long documentId;
+
+    private Long authorId;
 
     public AttachmentShoppingTagMapping(Attachment attachment, ShoppingTag shoppingTag) {
         this.attachment = attachment;
